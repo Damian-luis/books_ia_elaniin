@@ -9,7 +9,7 @@ const upload = multer({ storage: storage });
 
 
 Router.post('/upload',upload.single("file"), uploadBook);
-Router.post('/query', queryBook);
+Router.post('/query/:idBook', queryBook);
 Router.post('/get', getAllBooks);
 Router.delete('/delete/:id', deleteBook);
 export default Router

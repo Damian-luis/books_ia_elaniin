@@ -1,6 +1,5 @@
 
 import { GoogleGenerativeAI,GenerateContentRequest } from "@google/generative-ai";
-import pdfParse from 'pdf-parse'
 const genAI = new GoogleGenerativeAI("AIzaSyDJT3WV0LTV0ThanYYe8ABHzNfc99VljVQ");
 
 
@@ -26,10 +25,9 @@ function summarizeConversationHistory(history: { question: string; answer: strin
 
 
 class GeminiService {
-  public async generateSummary(pdfBuffer: Buffer): Promise<string> {
+  public async generateSummary(pdfText: any): Promise<string> {
     try {
-      const pdfData = await pdfParse(pdfBuffer);
-      const pdfText = pdfData.text;
+      
       
       const prompt = `Summarize the following content from a PDF:\n\n${pdfText}`;
       const result = await model.generateContent(prompt );
@@ -44,11 +42,11 @@ class GeminiService {
   }
 
   
-  public async answerQuestion(question: string): Promise<string> {
+  public async answerQuestion(question: string,cachedBookText:any): Promise<string> {
     try {
       const conversationSummary = summarizeConversationHistory(messageHistory);
 
-      const prompt = `**Conversation History:**\n${conversationSummary} \n\n**New Question:** ${question}`;
+      const prompt = `**Conversation History:**\n${conversationSummary} \n\n**Book Content:**\n${cachedBookText} \n\n**New Question:** ${question}`;
   
       const result = await model.generateContent(prompt);
       const response = await result.response;
@@ -63,7 +61,9 @@ class GeminiService {
     }
   }
 
-
+  public clearConversationHistory(): void {
+    messageHistory = []; 
+  }
 
 
 }

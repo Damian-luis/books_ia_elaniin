@@ -6,6 +6,7 @@ class Book extends Model {
   public title!: string;
   public type!: string;
   public summary!: string;
+  public content!:string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -23,6 +24,10 @@ Book.init({
   type: {
     type: DataTypes.TEXT,
     allowNull: true
+  },
+  content:{
+    type:DataTypes.TEXT,
+    allowNull:true
   },
   summary: {
     type: DataTypes.TEXT,
