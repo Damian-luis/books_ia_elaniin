@@ -10,6 +10,7 @@
     "nodemon": "^3.1.0",
     "pdf-parse": "^1.1.1",
     "pg": "^8.11.5",
+    "sequelize": "^6.37.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
