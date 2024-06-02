@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js
-FROM node:14-alpine
+FROM node:18-alpine
 
 # Establece el directorio de trabajo
 WORKDIR /app
@@ -8,16 +8,18 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala las dependencias del proyecto
-RUN npm install
+RUN npm install || true
+
+# Instala globalmente las herramientas necesarias
+RUN npm install -g next
+RUN npm install -g ts-node
 
 # Copia el resto de los archivos de la aplicación
 COPY . .
-
-# Compila el proyecto TypeScript
-#RUN npm start
 
 # Expone el puerto en el que la aplicación estará corriendo
 EXPOSE 3006
 
 # Comando para correr la aplicación
 CMD ["npm", "start"]
+
