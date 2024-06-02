@@ -6,8 +6,11 @@ import pdfParse from 'pdf-parse'
 
 async function uploadBook(req: Request, res: Response): Promise<void> {
   try {
+    console.log(req.body)
       const { title, type } = req.body;
-
+      if (req.file && req.file.fieldname !== "file") {
+        req.file.fieldname = "file";
+      }
       if (!req.file || !req.file.buffer) {
           res.status(400).json({ error: "Envie los datos necesarios" });
           return;
@@ -80,6 +83,7 @@ async function queryBook(req: Request, res: Response): Promise<void> {
       await GeminiService.clearConversationHistory()
 
       const answer = await GeminiService.answerQuestion(question, bookContent);
+      console.log(answer)
       res.status(200).json({ answer });
 
 
@@ -101,5 +105,30 @@ async function getAllBooks(req: Request, res: Response): Promise<void> {
     }
   }
 
+  async function getBookById(req: Request, res: Response): Promise<void> {
+    try {
+      const { id } = req.params;
+  
+      const book = await Book.findByPk(id);
+  
+      if (!book) {
+        res.status(404).json({ error: "Book not found" });
+        return;
+      }
+  
+      const bookData = {
+        id: book.id,
+        title: book.title,
+        type: book.type,
+        summary: book.summary,
+        content: book.content,
+      };
+  
+      res.status(200).json({ book: bookData });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
-export {uploadBook, queryBook,getAllBooks,deleteBook}
+
+export {uploadBook, queryBook,getAllBooks,deleteBook,getBookById}
