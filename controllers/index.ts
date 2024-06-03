@@ -3,7 +3,7 @@ import GeminiService from "../services/geminiService"
 import Book from "../models/Book";
 import * as cache from 'memory-cache'
 import pdfParse from 'pdf-parse'
-
+import { HTTP_CODES,RESPONSE_MESSAGES } from "../constant/constants";
 async function uploadBook(req: Request, res: Response): Promise<void> {
   try {
     console.log(req.body)
@@ -12,7 +12,7 @@ async function uploadBook(req: Request, res: Response): Promise<void> {
         req.file.fieldname = "file";
       }
       if (!req.file || !req.file.buffer) {
-          res.status(400).json({ error: "Envie los datos necesarios" });
+          res.status(HTTP_CODES.BAD_REQUEST).json({ error: RESPONSE_MESSAGES.INVALID_REQUEST });
           return;
       }
 
@@ -35,9 +35,9 @@ async function uploadBook(req: Request, res: Response): Promise<void> {
           console.log("se guardo en cache")
       }
 
-      res.status(200).json({ book });
+      res.status(HTTP_CODES.CREATED).json({ book });
   } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).json({ error: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
   }
 }
 
@@ -48,15 +48,15 @@ async function uploadBook(req: Request, res: Response): Promise<void> {
         const deletedBook = await Book.findByPk(id); 
 
         if (!deletedBook) {
-            res.status(404).json({ error: 'Book not found' });
+            res.status(HTTP_CODES.NOT_FOUND).json({ error: RESPONSE_MESSAGES.BOOK_NOT_FOUND });
             return;
         }
 
         await deletedBook.destroy();
 
-        res.status(200).json({ message: 'Book deleted successfully' });
+        res.status(HTTP_CODES.SUCCESS).json({ message: RESPONSE_MESSAGES.BOOK_DELETED_SUCCESSFULLY });
     } catch (error: any) {
-        res.status(500).json({ error: error.message });
+        res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).json({ error: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
     }
 }
 
@@ -68,11 +68,11 @@ async function queryBook(req: Request, res: Response): Promise<void> {
 
         if (cachedBookText) {
           const answer = await GeminiService.answerQuestion(question, cachedBookText);
-          res.status(200).json({ answer });
+          res.status(HTTP_CODES.SUCCESS).json({ answer });
         } else {
           const bookData = await Book.findByPk(idBook)
           if (!bookData) {
-            res.status(404).json({ error: "Book not found" });
+            res.status(HTTP_CODES.NOT_FOUND).json({ error: RESPONSE_MESSAGES.BOOK_NOT_FOUND });
             return;
           }
 
@@ -84,13 +84,13 @@ async function queryBook(req: Request, res: Response): Promise<void> {
 
       const answer = await GeminiService.answerQuestion(question, bookContent);
       console.log(answer)
-      res.status(200).json({ answer });
+      res.status(HTTP_CODES.SUCCESS).json({ answer });
 
 
     } 
   }
     catch (error:any) {
-        res.status(500).json({ error: error.message });
+        res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).json({ error: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
     }
 }
 
@@ -99,9 +99,9 @@ async function getAllBooks(req: Request, res: Response): Promise<void> {
     try {
 
       const books = await Book.findAll();
-      res.status(200).json({ books });
+      res.status(HTTP_CODES.SUCCESS).json({ books });
     } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).json({ error: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
     }
   }
 
@@ -112,7 +112,7 @@ async function getAllBooks(req: Request, res: Response): Promise<void> {
       const book = await Book.findByPk(id);
   
       if (!book) {
-        res.status(404).json({ error: "Book not found" });
+        res.status(HTTP_CODES.NOT_FOUND).json({ error: RESPONSE_MESSAGES.BOOK_NOT_FOUND });
         return;
       }
   
@@ -124,9 +124,9 @@ async function getAllBooks(req: Request, res: Response): Promise<void> {
         content: book.content,
       };
   
-      res.status(200).json({ book: bookData });
+      res.status(HTTP_CODES.SUCCESS).json({ book: bookData });
     } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      res.status(HTTP_CODES.INTERNAL_SERVER_ERROR).json({ error: RESPONSE_MESSAGES.INTERNAL_SERVER_ERROR });
     }
   }
 
