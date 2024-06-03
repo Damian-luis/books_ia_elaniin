@@ -1,9 +1,8 @@
-version: '3.9'
 
 services:
   app:
     build:
-      context: ./books_ia_elaniin
+      context: .
       dockerfile: Dockerfile
     ports:
       - "3006:3006"
@@ -21,13 +20,14 @@ services:
 
   frontend:
     build:
-      context: ./books_ia_elaniin/elaniin_front
+      context: ./elaniin_front
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
     volumes:
-      - ./books_ia_elaniin/elaniin_front:/app
+      - ./elaniin_front:/app
     command: ["npm", "run", "dev"]
+
 
