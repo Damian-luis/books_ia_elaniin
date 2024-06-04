@@ -27,10 +27,10 @@ function summarizeConversationHistory(history: { question: string; answer: strin
 class GeminiService {
   public async generateSummary(pdfText: any): Promise<string> {
     try {
-      
-      
-      const prompt = `Summarize the following content from a PDF:\n\n${pdfText}`;
-      const result = await model.generateContent(prompt );
+      const prompt = `Sumariza el siguiente contenido del PDF en español y responde preguntas relacionadas con este libro:\n\n${pdfText}\n\n[ES]`;
+      console.log("intentara conseguir prompt")
+      const result = await model.generateContent(prompt)
+      console.log(result)
       const response = await result.response;
       const text = await response.text();
     console.log("llega al generador")
@@ -47,7 +47,10 @@ class GeminiService {
     try {
       const conversationSummary = summarizeConversationHistory(messageHistory);
 
-      const prompt = `**Conversation History:**\n${conversationSummary} \n\n**Book Content:**\n${cachedBookText} \n\n**New Question:** ${question}`;
+      const prompt = `**Conversation History:**\n${conversationSummary} \n\n**Book Content:**\n${cachedBookText} \n\n
+      **New Question:** ${question}\nIf que new question is not related to the Content (the book) i want you to reply 
+      "Estoy programado para responder preguntas sobre este libro. ¿Hay algo específico que te gustaría discutir?",
+       also always reply in spanish, even when the question is in english.\n\n[ES]`;
   
       const result = await model.generateContent(prompt);
       const response = await result.response;
