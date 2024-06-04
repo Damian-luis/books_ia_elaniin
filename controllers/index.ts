@@ -3,7 +3,8 @@ import GeminiService from "../services/geminiService"
 import Book from "../models/Book";
 import * as cache from 'memory-cache'
 import pdfParse from 'pdf-parse'
-import { HTTP_CODES,RESPONSE_MESSAGES } from "../constant/constants";
+import { HTTP_CODES, RESPONSE_MESSAGES } from '../constant/index';
+
 async function uploadBook(req: Request, res: Response): Promise<void> {
   try {
     console.log(req.body)
