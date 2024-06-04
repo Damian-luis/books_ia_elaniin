@@ -34,6 +34,10 @@ Ingrese a la carpeta clonada, cree un archivo .env y en el mismo pegue las crede
 En la raiz del proyecto (la altura donde se encuentra el package.json) ejecute "docker-compose up",
 el proyecto construira la imagen y la expondrá en el puerto 3006 
 
+¡IMPORTANTE!
+Recomiendo si se desea ejecutar los test ejecutarlos una vez o ir cambiando el id para los test que interactuen con un libro en especifico, ejemplo get,delete,askquestion
+al momento de correr los test tambien se testea un DELETE, por lo cual al hacer tantos intentos termine de eliminar todos los libros o un libro especifico y el test que hace la consulta a X libro especifico no funcionará, entonces retornará false y el test fallará
+
 http://localhost:3006/api/
 
 puede hacer las siguiente consultas

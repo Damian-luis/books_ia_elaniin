@@ -7,7 +7,6 @@ import { HTTP_CODES, RESPONSE_MESSAGES } from '../constant/index';
 
 async function uploadBook(req: Request, res: Response): Promise<void> {
   try {
-    console.log(req.body)
       const { title, type } = req.body;
       if (req.file && req.file.fieldname !== "file") {
         req.file.fieldname = "file";
@@ -21,7 +20,6 @@ async function uploadBook(req: Request, res: Response): Promise<void> {
       const pdfData = await pdfParse(pdfBuffer);
       const pdfText = pdfData.text;
       const summary = await GeminiService.generateSummary(pdfText);
-
       const book = await Book.create({
           title,
           type,

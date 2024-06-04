@@ -33,7 +33,8 @@ class GeminiService {
       const result = await model.generateContent(prompt );
       const response = await result.response;
       const text = await response.text();
-
+    console.log("llega al generador")
+    console.log(text)
       return text;
     } catch (error) {
       console.error("Error generating summary:", error);
