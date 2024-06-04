@@ -31,10 +31,18 @@ Ingrese a la carpeta clonada, cree un archivo .env y en el mismo pegue las crede
 
 3. Montar:
 
-En la raiz del proyecto (la altura donde se encuentra el package.json) ejecute "docker-compose up",
+En la raiz del proyecto (la altura donde se encuentra el package.json) ejecute 
+
+"docker build -t nombre_de_la_imagen ."
+
+ luego 
+
+ "docker run -p 3006:3006 --env-file .env nombre_de_la_imagen"
+
 el proyecto construira la imagen y la expondrá en el puerto 3006 
 
 ¡IMPORTANTE!
+
 Recomiendo si se desea ejecutar los test ejecutarlos una vez o ir cambiando el id para los test que interactuen con un libro en especifico, ejemplo get,delete,askquestion
 al momento de correr los test tambien se testea un DELETE, por lo cual al hacer tantos intentos termine de eliminar todos los libros o un libro especifico y el test que hace la consulta a X libro especifico no funcionará, entonces retornará false y el test fallará
 
@@ -55,3 +63,15 @@ una propiedad "title" en el body) POST
 http://localhost:3006/api/query/:idBook  (Para interactuar con la IA, debe enviarse un id del libro en parametros
 
 y una propiedad "question" en el cuerpo del body) POST
+
+Adicionalmente, puedes clonar el frontend de la aplicacion
+
+https://github.com/Damian-luis/elaniin_front
+
+ejecutar "npm install", luego "npm run dev" y se ejecutará en el puerto 3000
+
+puedes acceder a él en
+
+http://localhost:3000/
+
+las variables de entorno para ambos se enviarán por mail.
