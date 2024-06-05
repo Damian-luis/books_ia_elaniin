@@ -14,7 +14,6 @@ RUN npm install || true
 COPY . .
 
 # Instala globalmente las herramientas necesarias
-RUN npm install -g next
 RUN npm install -g ts-node
 
 # Expone el puerto en el que la aplicación estará corriendo

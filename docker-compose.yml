@@ -15,7 +15,7 @@ services:
       DB_PORT: ${DB_PORT}
       ENABLE_CACHING: ${ENABLE_CACHING}
     volumes:
-      - ./books_ia_elaniin:/app
+      - .:/app
     command: ["npm", "start"]
 
   frontend:

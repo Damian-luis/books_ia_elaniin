@@ -29,6 +29,31 @@ cd elaniin-books-ia
 
 Ingrese a la carpeta clonada, cree un archivo .env y en el mismo pegue las credenciales que se les enviará por correo
 
+(
+OPCIONAL:
+Puede clonar el frontend, dentro de la carpeta creada en la clonacion del backend books_ia_elaniin, dentro de la misma debe clonar el repositorio
+
+https://github.com/Damian-luis/elaniin_front
+
+alli debe agregar el archivo .env del frontend, cuando lo haya hecho dirigirse a la raiz del backend
+y ejecutar 
+
+docker-compose up
+
+automaticamente buscará los dockerfiles del cliente y el servidor y los montará y correrá,
+acceda a la app en http://localhost:3000/ 
+
+la estructura debe quedar:
+
+books_ia_elaniin/
+               Dockerfile
+               docker-compose.yml
+               (otras carpetas)
+               /elaniin_front  (el cliente debe ser clonado como hijo del servidor)
+               .env
+               (a este nivel ejecutar docker-compose up)
+)
+
 3. Montar:
 
 En la raiz del proyecto (la altura donde se encuentra el package.json) ejecute 
